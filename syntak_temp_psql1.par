@@ -1,0 +1,18 @@
+--connect
+jdbc:postgresql://#IP:#PORT/#DATABASENAME
+--username
+#USERNAME
+--password
+#PASSNAME
+--query
+'select * from (SELECT #COLUMNNAME,ROW_NUMBER() over (order by #FIRSTCOLUMN) FROM #SCHEMANAME."#TNAME") as foo WHERE #FIRSTCOLUMN IS NOT NULL AND $CONDITIONS'
+--hbase-table
+#XTABLE
+--column-family
+fam_#XTABLE
+--hbase-row-key
+#COLUMNKEY
+--split-by
+row_number
+-m
+#MAPPER
