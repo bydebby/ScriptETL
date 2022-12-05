@@ -1,0 +1,18 @@
+--connect
+jdbc:postgresql://#IP:#PORT/#DATABASENAME
+--username
+#USERNAME
+--password
+#PASSNAME
+--query
+"select distinct table_name from information_schema.columns where table_catalog='#DATABASENAME' and table_schema='#SCHEMANAME' AND $CONDITIONS"
+--null-string
+''
+--null-non-string
+''
+--fields-terminated-by
+'|'
+-m1
+--delete-target-dir
+--target-dir
+#HDFSDIR/LIST/#DATABASENAME/#SCHEMANAME

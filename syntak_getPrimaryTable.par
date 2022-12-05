@@ -1,0 +1,19 @@
+--connect
+jdbc:postgresql://#IP:#PORT/#DATABASENAME
+--username
+#USERNAME
+--password
+#PASSNAME
+--query
+"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + QUOTENAME(CONSTRAINT_NAME)), 'IsPrimaryKey') = 1 AND TABLE_NAME = '#TNAME' AND TABLE_SCHEMA = '#SCHEMANAME' AND $CONDITIONS"
+--null-string
+''
+--null-non-string
+''
+--fields-terminated-by
+'|'
+-m
+1
+--delete-target-dir
+--target-dir
+#HDFSDIR/PRIM/#INITIALDB/#DATABASENAME/#SCHEMANAME/#TNAME

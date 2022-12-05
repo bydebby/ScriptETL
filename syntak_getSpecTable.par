@@ -1,0 +1,19 @@
+--connect
+jdbc:postgresql://#IP:#PORT/#DATABASENAME
+--username
+#USERNAME
+--password
+#PASSNAME
+--query
+"select a.*, b.constraint_type from (select column_name,data_type,column_default from information_schema.columns where table_name='#TNAME' and table_catalog='#DATABASENAME' and table_schema='#SCHEMANAME') a left join (SELECT a.attname, (case when c.contype = 'p' then 'PRIMARY KEY' when c.contype = 'u' then 'UNIQUE KEY' when c.contype = 'f' then 'FOREIGN KEY' end) as constraint_type FROM pg_constraint AS c CROSS JOIN LATERAL UNNEST(c.conkey) AS cols(colnum) INNER JOIN pg_attribute AS a ON a.attrelid = c.conrelid AND cols.colnum = a.attnum WHERE c.conrelid = '#TNAME'::REGCLASS) b on a.column_name = b.attname AND b.attname IS NOT null AND $CONDITIONS"
+--null-string
+''
+--null-non-string
+''
+--fields-terminated-by
+'|'
+-m
+1
+--delete-target-dir
+--target-dir
+#HDFSDIR/SPEC/#INITIALDB/#DATABASENAME/#SCHEMANAME/#TNAME
